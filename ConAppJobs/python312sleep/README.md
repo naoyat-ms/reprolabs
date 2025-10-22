@@ -1,48 +1,89 @@
-以下は、指定された Dockerfile と sleep_script.py を使用して Docker イメージを作成し、Docker Hub にプッシュする手順です。
+# Dockerfile と sleep_script.py を使用した Docker イメージのビルドおよびプッシュ手順
 
-##ステップ 1: Dockerfile と sleep_script.py の準備
-すでに Dockerfile と sleep_script.py を準備されているようです。この2つのファイルが同じディレクトリにあることを確認してください。
+以下は、指定された **Dockerfile** と **sleep_script.py** を使用して Docker イメージを作成し、**Docker Hub** にプッシュする手順です。
 
-##ステップ 2: Docker イメージのビルド
-    1. ターミナルを開く
-プロジェクトディレクトリに移動してください（Dockerfile と sleep_script.py が保存されている場所）。
-    2. Docker イメージをビルド
-以下のコマンドを実行して、Dockerfile に基づいてイメージをビルドします。
+---
 
-bash
-コードをコピーする
-docker build -t <your-username>/sleep-script .
+## ステップ 1: Dockerfile と sleep_script.py の準備
 
-ここで <your-username> は Docker Hub のユーザー名に置き換えてください。このコマンドにより、現在のディレクトリからコンテナがビルドされ、<your-username>/sleep-script という名前のイメージが作成されます。
+すでに Dockerfile と sleep_script.py を準備されているようです。  
+この 2 つのファイルが **同じディレクトリにあること** を確認してください。
 
-##ステップ 3: Docker Hub にログイン
-まだログインしていない場合、以下のコマンドを実行して Docker Hub にログインします。
+---
 
-bash
-コードをコピーする
+## ステップ 2: Docker イメージのビルド
+
+1. **ターミナルを開く**  
+   プロジェクトディレクトリ（Dockerfile と sleep_script.py が保存されている場所）に移動します。
+
+2. **Docker イメージをビルド**  
+   以下のコマンドを実行して、Dockerfile に基づいてイメージをビルドします。
+
+   ```bash
+   docker build -t <your-username>/sleep-script .
+   ```
+
+   > `<your-username>` は Docker Hub のユーザー名に置き換えてください。  
+   > このコマンドにより、現在のディレクトリからコンテナがビルドされ、  
+   > `<your-username>/sleep-script` という名前のイメージが作成されます。
+
+---
+
+## ステップ 3: Docker Hub にログイン
+
+まだログインしていない場合、以下のコマンドで Docker Hub にログインします。
+
+```bash
 docker login
-ユーザー名とパスワードを入力するように求められます。
+```
 
-##ステップ 4: Docker イメージのタグ付け
-Docker Hub にプッシュする前に、イメージに適切なタグを付ける必要があります。次のコマンドを使用してタグを付けます（既に docker build でタグを指定した場合はこの##ステップは不要です）。
+> ユーザー名とパスワードを入力するよう求められます。
 
-bash
-コードをコピーする
+---
+
+## ステップ 4: Docker イメージのタグ付け
+
+Docker Hub にプッシュする前に、イメージにタグを付けます。  
+（すでに `docker build` 時にタグを指定している場合はこのステップは不要です。）
+
+```bash
 docker tag <your-username>/sleep-script <your-username>/sleep-script:v1
+```
 
-##ステップ 5: Docker Hub へイメージをプッシュ
-次に、作成した Docker イメージを Docker Hub にプッシュします。以下のコマンドを使用して、イメージをアップロードします。
+---
 
-bash
-コードをコピーする
+## ステップ 5: Docker Hub へイメージをプッシュ
+
+次に、作成した Docker イメージを Docker Hub にプッシュします。
+
+```bash
 docker push <your-username>/sleep-script:v1
-これで、Docker Hub にイメージがプッシュされます。
+```
 
-##ステップ 6: Docker Hub で確認
-Docker Hub にログインし、作成したリポジトリ <your-username>/sleep-script にアクセスして、イメージが正常にアップロードされたことを確認できます。
-以上が、Dockerfile を使って Docker イメージを作成し、Docker Hub にプッシュする手順です。
+> これで Docker Hub にイメージがアップロードされます。
 
-##ACR へプッシュする場合
+---
+
+## ステップ 6: Docker Hub で確認
+
+Docker Hub にログインし、作成したリポジトリ  
+`<your-username>/sleep-script` にアクセスして、  
+イメージが正常にアップロードされたことを確認します。
+
+---
+
+## （補足）Azure Container Registry（ACR）へプッシュする場合
+
+もし Docker Hub ではなく Azure Container Registry (ACR) にプッシュする場合は、以下のコマンドを使用します。
+
+```bash
 az login
 az acr login --name ntacrtest
-docker push ntacrtest.azurecr.io/ｘｘｘ/xxx
+docker push ntacrtest.azurecr.io/<your-namespace>/<your-image>
+```
+
+> `<your-namespace>` や `<your-image>` は環境に合わせて置き換えてください。
+
+---
+
+以上が、**Dockerfile** を使って **Docker イメージを作成し、Docker Hub（または ACR）にプッシュする手順**です。
